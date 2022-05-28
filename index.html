@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhạc Của Tui</title>
+  <link rel="stylesheet" href="player.css">
+  <link rel="stylesheet" href="../materialize/css/materialize.min.css">
+  <script src="../materialize/js/materialize.min.js"></script>
+</head>
+
+<body>
+  <h1>Trình Phát Nhạc</h1>
+  <img class="cover-image" data-amplitude-song-info="cover_art_url" />
+  <div class="song-progress-container">
+    <div>
+      <!-- current  là thời gian đã phát đnag phát  -->
+      <span class="amplitude-current-minutes"></span>
+      <span class="amplitude-current-seconds"></span>
+    </div>
+
+    <progress class="amplitude-song-played-progress"></progress>
+    <div>
+      <!-- duration là tông thời gian  -->
+      <span class="amplitude-duration-minutes"></span>
+      <span class="amplitude-duration-seconds"></span>
+    </div>
+  </div>
+  <div class="song-info-container">
+
+    <span data-amplitude-song-info="name"></span> sáng tác bởi
+    <span data-amplitude-song-info="artist"></span>
+    <!-- data-amplitude-song-info="name"   lấy ra tên bài hát đnag phát  -->
+    <!-- <span data-amplitude-song-info="album"></span> -->
+
+  </div>
+  <div class="controls">
+    <div class="amplitude-play-pause"></div>
+    <div class="amplitude-stop"></div>
+    <div class="amplitude-mute"></div>
+    <!-- <div class="amplitude-volume-down"></div>
+        <div class="amplitude-volume-up"></div> -->
+    <input type="range" class="amplitude-volume-slider" />
+  </div>
+  <script>
+    let { ipcRenderer, shell } = require('electron')
+    let Swal = require('sweetalert2')
+    ipcRenderer.on('Save_baihat', () => {
+      Swal.fire({
+        title: 'Bạn có muốn lưu bài hát cho lần sau không?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire('Đã lưu!', '', 'thành công')
+        } else if (result.isDenied) {
+          Swal.fire('Các thay đổi không được lưu', '', 'thông tin')
+        }
+      })
+    })
+  </script>
+  <script src="./node_modules/amplitudejs/dist/amplitude.js"></script>
+  <script src="./player.js"></script>
+</body>
+
+</html>

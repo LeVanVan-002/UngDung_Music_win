@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../materialize/css/materialize.min.css">
+  <script src="../materialize/js/materialize.min.js"></script>
+  <title>thêm bài hát </title>
+</head>
+<body>
+ <div class="container">
+   <form>
+     <div>
+       <label> tên bài hát</label>
+       <input type="text" id="song" autofocus value="" placeholder="viết tên bài hát yêu thích của bạn ">
+     </div>
+     <button class="waves-effect waves-light btn" onclick="them()" >
+     thêm
+     </button>
+   </form>
+ </div>
+ <script>
+  var { ipcRenderer } = require('electron')
+  function them() {
+   var tenbaihat =  document.getElementById("song").value
+   if(tenbaihat.trim().length !=0)//nếu bỏ ko viết gì ko cho add
+    ipcRenderer.send('baihatdachon', tenbaihat)
+   }
+ </script>
+<script src="./JS/Main.js"></script>
+</body>
+</html>
